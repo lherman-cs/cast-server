@@ -1,5 +1,6 @@
 from collections import deque
 from queue import Queue
+from functools import wraps
 
 import vlc
 from vlc import MediaSlaveType, Media, MediaPlayer, \
@@ -9,11 +10,12 @@ from .extractor import Extractor
 
 
 def operation(func):
-    def wrapper(self, *args, **kwargs):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         def op_wrapper():
-            func(self, *args, **kwargs)
+            func(*args, **kwargs)
 
-        self._VideoPlayer__ops.put(op_wrapper)
+        args[0]._VideoPlayer__ops.put(op_wrapper)
 
     return wrapper
 
@@ -34,7 +36,8 @@ class VideoPlayer:
 
     def main(self):
         while 1:
-            self.__ops.get()()
+            op = self.__ops.get()
+            op()
 
     @operation
     def add(self, url: str):
@@ -46,8 +49,7 @@ class VideoPlayer:
 
         self.__playlist.append(media)
 
-    @operation
-    def next(self):
+    def __next(self):
         if len(self.__playlist) == 0:
             self.__player.stop()
             return
@@ -57,10 +59,14 @@ class VideoPlayer:
         self.__player.play()
 
     @operation
+    def next(self):
+        self.__next()
+
+    @operation
     def play(self):
         state = self.__player.get_state()
         if state == State.Stopped or state == State.NothingSpecial:
-            self.next()
+            self.__next()
         else:
             self.__player.play()
 
