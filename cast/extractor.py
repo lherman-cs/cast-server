@@ -9,7 +9,7 @@ class Extractor:
 
     def __init__(self, url: str):
         with YoutubeDL({"format": self.__ydl_format}) as ydl:
-            info: dict = ydl.extract_info(url, download=False)
+            info = ydl.extract_info(url, download=False)
 
             # This means there's the video got splitted up to
             # video-only and audio-only

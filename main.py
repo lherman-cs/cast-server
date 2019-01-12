@@ -82,7 +82,8 @@ handler_map = {
 
 async def handler(websocket, path):
     is_auth = False
-    async for message in websocket:
+    while 1:
+        message = await websocket.recv()
         req = json.loads(message)
 
         op = Operation(req['operation'])
@@ -102,7 +103,7 @@ async def handler(websocket, path):
 def main():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(websockets.serve(handler, port=8765))
+    loop.run_until_complete(websockets.serve(handler, port=8080))
     loop.run_forever()
 
 

@@ -26,9 +26,9 @@ class VideoPlayer:
 
     def __init__(self):
         self.__vlc = vlc.Instance(*self.__vlc_args)
-        self.__player: MediaPlayer = self.__vlc.media_player_new()
+        self.__player = self.__vlc.media_player_new()
         self.__player.set_fullscreen(True)
-        self.__event_manager: EventManager = self.__player.event_manager()
+        self.__event_manager = self.__player.event_manager()
         self.__event_manager.event_attach(
             EventType.MediaPlayerEndReached, self.on_end_reached)
         self.__playlist = deque()
@@ -43,7 +43,7 @@ class VideoPlayer:
     def add(self, url: str):
         ext = Extractor(url)
 
-        media: Media = self.__vlc.media_new(ext.video_url)
+        media = self.__vlc.media_new(ext.video_url)
         if not ext.has_audio:
             media.slaves_add(1, 4, ext.audio_url)
 
@@ -54,7 +54,7 @@ class VideoPlayer:
             self.__player.stop()
             return
 
-        next_video: Media = self.__playlist.popleft()
+        next_video = self.__playlist.popleft()
         self.__player.set_media(next_video)
         self.__player.play()
 
