@@ -75,7 +75,7 @@ class VideoPlayer:
 
     @operation
     def pause(self):
-        self.__player.pause()
+        self.__player.set_pause(True)
 
     @operation
     def stop(self):
