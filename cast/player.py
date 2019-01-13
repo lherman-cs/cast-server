@@ -48,6 +48,9 @@ class VideoPlayer:
             media.slaves_add(1, 4, ext.audio_url)
 
         self.__playlist.append(media)
+        state = self.__player.get_state()
+        if state == State.Stopped or state == State.NothingSpecial:
+            self.__next()
 
     def __next(self):
         if len(self.__playlist) == 0:
