@@ -3,15 +3,14 @@
 cd `dirname $0`
 ENV_DIR=venv
 
-# Update vscreen
-git pull origin master
-
 # Check venv
 if ! [ -d ${ENV_DIR} ]; then
     echo "venv doesn't exist. creating one..."
     python -m venv ${ENV_DIR}
-    ${ENV_DIR}/bin/pip install -r requirements.txt
 fi
+
+# Update vscreen
+git pull origin master && ${ENV_DIR}/bin/pip install -r requirements.txt
 
 echo ""
 echo "vscreen is ready"
