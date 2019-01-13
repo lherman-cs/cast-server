@@ -78,6 +78,10 @@ class VideoPlayer:
         self.__player.pause()
 
     @operation
+    def stop(self):
+        self.__player.stop()
+
+    @operation
     def seek(self, pos: float):
         self.__player.set_position(pos)
 

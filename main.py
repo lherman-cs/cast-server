@@ -2,23 +2,24 @@ from time import sleep
 import asyncio
 from threading import Thread
 import json
-from enum import Enum
+from enum import IntEnum
 
 import websockets
 
 from cast import VideoPlayer
 
 
-class Operation(Enum):
+class Operation(IntEnum):
     AUTH = 0
     PLAY = 1
     PAUSE = 2
-    NEXT = 3
-    ADD = 4
-    SEEK = 5
+    STOP = 3
+    NEXT = 4
+    ADD = 5
+    SEEK = 6
 
 
-class Status(Enum):
+class Status(IntEnum):
     OK = 0
 
 
@@ -27,42 +28,49 @@ player = VideoPlayer()
 
 async def auth_handler(req):
     return {
-        "status": 0
+        "status": Status.OK
     }
 
 
 async def play_handler(req):
     player.play()
     return {
-        "status": 0
+        "status": Status.OK
     }
 
 
 async def pause_handler(req):
     player.pause()
     return {
-        "status": 0
+        "status": Status.OK
+    }
+
+
+async def stop_handler(req):
+    player.stop()
+    return {
+        "status": Status.OK
     }
 
 
 async def next_handler(req):
     player.next()
     return {
-        "status": 0
+        "status": Status.OK
     }
 
 
 async def add_handler(req):
     player.add(req["url"])
     return {
-        "status": 0
+        "status": Status.OK
     }
 
 
 async def seek_handler(req):
     player.seek(req["position"])
     return {
-        "status": 0
+        "status": Status.OK
     }
 
 
@@ -70,6 +78,7 @@ handler_map = {
     Operation.AUTH: auth_handler,
     Operation.PLAY: play_handler,
     Operation.PAUSE: pause_handler,
+    Operation.STOP: stop_handler,
     Operation.NEXT: next_handler,
     Operation.ADD: add_handler,
     Operation.SEEK: seek_handler
