@@ -26,14 +26,12 @@ player = VideoPlayer()
 
 
 async def auth_handler(req):
-    print("auth")
     return {
         "status": 0
     }
 
 
 async def play_handler(req):
-    print("play")
     player.play()
     return {
         "status": 0
@@ -41,7 +39,6 @@ async def play_handler(req):
 
 
 async def pause_handler(req):
-    print(pause)
     player.pause()
     return {
         "status": 0
@@ -56,7 +53,6 @@ async def next_handler(req):
 
 
 async def add_handler(req):
-    print('add')
     player.add(req["url"])
     return {
         "status": 0
