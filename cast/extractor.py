@@ -2,7 +2,7 @@ from youtube_dl import YoutubeDL
 
 
 class Extractor:
-    __ydl_format = "bestvideo+bestaudio/best"
+    __ydl_format = "best"
     has_audio = True
     video_url = ""
     audio_url = ""
