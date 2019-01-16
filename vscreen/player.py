@@ -6,7 +6,7 @@ import vlc
 from vlc import MediaSlaveType, Media, MediaPlayer, \
     EventManager, EventType, callbackmethod, State
 
-from .extractor import Extractor
+from .video import Video
 
 
 def operation(func):
@@ -24,6 +24,14 @@ class VideoPlayer:
     __vlc_args = ('--input-repeat=-1', '--fullscreen',
                   '--mouse-hide-timeout=0', '--input-fast-seek')
 
+    __info = {
+        "title": "",
+        "thumbnail_url": "",
+        "volume": 0.0,
+        "position": 0.0,
+        "state": "stopped"
+    }
+
     def __init__(self):
         self.__vlc = vlc.Instance(*self.__vlc_args)
         self.__player = self.__vlc.media_player_new()
@@ -33,6 +41,7 @@ class VideoPlayer:
             EventType.MediaPlayerEndReached, self.on_end_reached)
         self.__playlist = deque()
         self.__ops = Queue()
+        self.__subscribers = []
 
     def main(self):
         while 1:
@@ -41,13 +50,8 @@ class VideoPlayer:
 
     @operation
     def add(self, url: str):
-        ext = Extractor(url)
-
-        media = self.__vlc.media_new(ext.video_url)
-        if not ext.has_audio:
-            media.slaves_add(1, 4, ext.audio_url)
-
-        self.__playlist.append(media)
+        video = Video(self.__vlc, url)
+        self.__playlist.append(video)
         state = self.__player.get_state()
         if state == State.Stopped or state == State.NothingSpecial:
             self.__next()
@@ -58,7 +62,9 @@ class VideoPlayer:
             return
 
         next_video = self.__playlist.popleft()
-        self.__player.set_media(next_video)
+        self.__info["title"] = next_video.title
+        self.__info["thumbnail_url"] = next_video.thumbnail_url
+        self.__player.set_media(next_video.media)
         self.__player.play()
 
     @operation
@@ -88,3 +94,12 @@ class VideoPlayer:
     @callbackmethod
     def on_end_reached(self, *args):
         self.next()
+
+    def __notify(self):
+        # TODO! Get the info and pass to notify
+
+        for subscriber in self.__subscribers:
+            subscriber.notify()
+
+    def add_subscriber(self, subscriber):
+        self.__subscribers.append(subscriber)

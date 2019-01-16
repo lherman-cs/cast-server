@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rvscreen.proto\"\x07\n\x05\x45mpty\"#\n\x06Status\x12\x19\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x0b.StatusCode\"\x1e\n\nCredential\x12\x10\n\x08password\x18\x01 \x01(\t\"\x15\n\x06Source\x12\x0b\n\x03url\x18\x01 \x01(\t\"\x19\n\x08Position\x12\r\n\x05value\x18\x01 \x01(\x02*\x14\n\nStatusCode\x12\x06\n\x02OK\x10\x00\x32\xcf\x01\n\x07VScreen\x12\x1e\n\x04\x41uth\x12\x0b.Credential\x1a\x07.Status\"\x00\x12\x19\n\x04Play\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x1a\n\x05Pause\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x19\n\x04Stop\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x19\n\x04Next\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x19\n\x03\x41\x64\x64\x12\x07.Source\x1a\x07.Status\"\x00\x12\x1c\n\x04Seek\x12\t.Position\x1a\x07.Status\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rvscreen.proto\"\x07\n\x05\x45mpty\"#\n\x06Status\x12\x19\n\x04\x63ode\x18\x01 \x01(\x0e\x32\x0b.StatusCode\"\x1e\n\nCredential\x12\x10\n\x08password\x18\x01 \x01(\t\"\x15\n\x06Source\x12\x0b\n\x03url\x18\x01 \x01(\t\"\x19\n\x08Position\x12\r\n\x05value\x18\x01 \x01(\x02\"\x12\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\"\x98\x01\n\x04Info\x12\r\n\x05title\x18\x01 \x01(\t\x12\x14\n\x0cthumbnailURL\x18\x02 \x01(\t\x12\x0e\n\x06volume\x18\x03 \x01(\x01\x12\x10\n\x08position\x18\x04 \x01(\x01\x12\x1a\n\x05state\x18\x05 \x01(\x0e\x32\x0b.Info.State\"-\n\x05State\x12\x0b\n\x07PLAYING\x10\x00\x12\n\n\x06PAUSED\x10\x01\x12\x0b\n\x07STOPPED\x10\x02*\x14\n\nStatusCode\x12\x06\n\x02OK\x10\x00\x32\x8f\x02\n\x07VScreen\x12\x1e\n\x04\x41uth\x12\x0b.Credential\x1a\x07.Status\"\x00\x12\x19\n\x04Play\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x1a\n\x05Pause\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x19\n\x04Stop\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x19\n\x04Next\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x19\n\x03\x41\x64\x64\x12\x07.Source\x1a\x07.Status\"\x00\x12\x1c\n\x04Seek\x12\t.Position\x1a\x07.Status\"\x00\x12\x1d\n\tSubscribe\x12\x05.User\x1a\x05.Info\"\x00\x30\x01\x12\x1f\n\x0bUnsubscribe\x12\x05.User\x1a\x07.Status\"\x00\x62\x06proto3')
 )
 
 _STATUSCODE = _descriptor.EnumDescriptor(
@@ -36,14 +36,40 @@ _STATUSCODE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=145,
-  serialized_end=165,
+  serialized_start=320,
+  serialized_end=340,
 )
 _sym_db.RegisterEnumDescriptor(_STATUSCODE)
 
 StatusCode = enum_type_wrapper.EnumTypeWrapper(_STATUSCODE)
 OK = 0
 
+
+_INFO_STATE = _descriptor.EnumDescriptor(
+  name='State',
+  full_name='Info.State',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='PLAYING', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PAUSED', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='STOPPED', index=2, number=2,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=273,
+  serialized_end=318,
+)
+_sym_db.RegisterEnumDescriptor(_INFO_STATE)
 
 
 _EMPTY = _descriptor.Descriptor(
@@ -193,12 +219,107 @@ _POSITION = _descriptor.Descriptor(
   serialized_end=143,
 )
 
+
+_USER = _descriptor.Descriptor(
+  name='User',
+  full_name='User',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='User.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=145,
+  serialized_end=163,
+)
+
+
+_INFO = _descriptor.Descriptor(
+  name='Info',
+  full_name='Info',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='title', full_name='Info.title', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='thumbnailURL', full_name='Info.thumbnailURL', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='volume', full_name='Info.volume', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='position', full_name='Info.position', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='state', full_name='Info.state', index=4,
+      number=5, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _INFO_STATE,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=166,
+  serialized_end=318,
+)
+
 _STATUS.fields_by_name['code'].enum_type = _STATUSCODE
+_INFO.fields_by_name['state'].enum_type = _INFO_STATE
+_INFO_STATE.containing_type = _INFO
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['Status'] = _STATUS
 DESCRIPTOR.message_types_by_name['Credential'] = _CREDENTIAL
 DESCRIPTOR.message_types_by_name['Source'] = _SOURCE
 DESCRIPTOR.message_types_by_name['Position'] = _POSITION
+DESCRIPTOR.message_types_by_name['User'] = _USER
+DESCRIPTOR.message_types_by_name['Info'] = _INFO
 DESCRIPTOR.enum_types_by_name['StatusCode'] = _STATUSCODE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -237,6 +358,20 @@ Position = _reflection.GeneratedProtocolMessageType('Position', (_message.Messag
   ))
 _sym_db.RegisterMessage(Position)
 
+User = _reflection.GeneratedProtocolMessageType('User', (_message.Message,), dict(
+  DESCRIPTOR = _USER,
+  __module__ = 'vscreen_pb2'
+  # @@protoc_insertion_point(class_scope:User)
+  ))
+_sym_db.RegisterMessage(User)
+
+Info = _reflection.GeneratedProtocolMessageType('Info', (_message.Message,), dict(
+  DESCRIPTOR = _INFO,
+  __module__ = 'vscreen_pb2'
+  # @@protoc_insertion_point(class_scope:Info)
+  ))
+_sym_db.RegisterMessage(Info)
+
 
 
 _VSCREEN = _descriptor.ServiceDescriptor(
@@ -245,8 +380,8 @@ _VSCREEN = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=168,
-  serialized_end=375,
+  serialized_start=343,
+  serialized_end=614,
   methods=[
   _descriptor.MethodDescriptor(
     name='Auth',
@@ -308,6 +443,24 @@ _VSCREEN = _descriptor.ServiceDescriptor(
     index=6,
     containing_service=None,
     input_type=_POSITION,
+    output_type=_STATUS,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Subscribe',
+    full_name='VScreen.Subscribe',
+    index=7,
+    containing_service=None,
+    input_type=_USER,
+    output_type=_INFO,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='Unsubscribe',
+    full_name='VScreen.Unsubscribe',
+    index=8,
+    containing_service=None,
+    input_type=_USER,
     output_type=_STATUS,
     serialized_options=None,
   ),

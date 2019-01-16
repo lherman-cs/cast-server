@@ -49,6 +49,16 @@ class VScreenStub(object):
         request_serializer=vscreen__pb2.Position.SerializeToString,
         response_deserializer=vscreen__pb2.Status.FromString,
         )
+    self.Subscribe = channel.unary_stream(
+        '/VScreen/Subscribe',
+        request_serializer=vscreen__pb2.User.SerializeToString,
+        response_deserializer=vscreen__pb2.Info.FromString,
+        )
+    self.Unsubscribe = channel.unary_unary(
+        '/VScreen/Unsubscribe',
+        request_serializer=vscreen__pb2.User.SerializeToString,
+        response_deserializer=vscreen__pb2.Status.FromString,
+        )
 
 
 class VScreenServicer(object):
@@ -104,6 +114,20 @@ class VScreenServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def Subscribe(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def Unsubscribe(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_VScreenServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -140,6 +164,16 @@ def add_VScreenServicer_to_server(servicer, server):
       'Seek': grpc.unary_unary_rpc_method_handler(
           servicer.Seek,
           request_deserializer=vscreen__pb2.Position.FromString,
+          response_serializer=vscreen__pb2.Status.SerializeToString,
+      ),
+      'Subscribe': grpc.unary_stream_rpc_method_handler(
+          servicer.Subscribe,
+          request_deserializer=vscreen__pb2.User.FromString,
+          response_serializer=vscreen__pb2.Info.SerializeToString,
+      ),
+      'Unsubscribe': grpc.unary_unary_rpc_method_handler(
+          servicer.Unsubscribe,
+          request_deserializer=vscreen__pb2.User.FromString,
           response_serializer=vscreen__pb2.Status.SerializeToString,
       ),
   }
