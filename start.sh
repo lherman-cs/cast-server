@@ -14,4 +14,4 @@ git pull origin master && ${ENV_DIR}/bin/pip install -r requirements.txt
 
 echo ""
 echo "vscreen is ready"
-${ENV_DIR}/bin/python main.py
+${ENV_DIR}/bin/python main.py > out.log 2> err.log
