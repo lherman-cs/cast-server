@@ -5,7 +5,7 @@ from queue import Queue
 
 import grpc
 import vscreen_pb2_grpc
-from vscreen_pb2 import Status, StatusCode
+from vscreen_pb2 import Status, StatusCode, Info, _INFO_STATE
 
 from vscreen import VideoPlayer
 
@@ -15,6 +15,7 @@ class VScreenServicer(vscreen_pb2_grpc.VScreenServicer):
         self.__player = player
         self.__player.add_subscriber(self)
         self.__subscribers_q = {}
+        self.__latest_info = None
 
     def Auth(self, request, context):
         # TODO! Actually do authentication
@@ -55,6 +56,9 @@ class VScreenServicer(vscreen_pb2_grpc.VScreenServicer):
         queue = Queue()
         self.__subscribers_q[request.id] = queue
 
+        if self.__latest_info != None:
+            yield self.__latest_info
+
         while request.id in self.__subscribers_q:
             yield queue.get()
 
@@ -64,8 +68,20 @@ class VScreenServicer(vscreen_pb2_grpc.VScreenServicer):
         return response
 
     def notify(self, data):
+        print(data)
+        info = Info(title=data["title"], thumbnailURL=data["thumbnail_url"],
+                    volume=data["volume"], position=data["position"])
+        self.__latest_info = info
+
+        if data["state"] == "playing":
+            info.state = 0
+        elif data["state"] == "paused":
+            info.state = 1
+        else:
+            info.state = 2
+
         for queue in self.__subscribers_q.values():
-            queue.put(data)
+            queue.put(info)
 
 
 # create a gRPC server

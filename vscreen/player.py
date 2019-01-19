@@ -58,14 +58,17 @@ class VideoPlayer:
 
     def __next(self):
         if len(self.__playlist) == 0:
-            self.__player.stop()
+            self.stop()
             return
 
         next_video = self.__playlist.popleft()
-        self.__info["title"] = next_video.title
-        self.__info["thumbnail_url"] = next_video.thumbnail_url
         self.__player.set_media(next_video.media)
         self.__player.play()
+        self.__info["title"] = next_video.title
+        self.__info["thumbnail_url"] = next_video.thumbnail_url
+        self.__info["position"] = 0.0
+        self.__info["state"] = "playing"
+        self.__notify()
 
     @operation
     def next(self):
@@ -78,18 +81,29 @@ class VideoPlayer:
             self.__next()
         else:
             self.__player.play()
+        self.__info["state"] = "playing"
+        self.__notify()
 
     @operation
     def pause(self):
         self.__player.set_pause(True)
+        self.__info["state"] = "paused"
+        self.__notify()
 
     @operation
     def stop(self):
         self.__player.stop()
+        self.__info["title"] = ""
+        self.__info["thumbnail_url"] = ""
+        self.__info["position"] = 0.0
+        self.__info["state"] = "stopped"
+        self.__notify()
 
     @operation
     def seek(self, pos: float):
         self.__player.set_position(pos)
+        self.__info["position"] = pos
+        self.__notify()
 
     @callbackmethod
     def on_end_reached(self, *args):
@@ -99,7 +113,7 @@ class VideoPlayer:
         # TODO! Get the info and pass to notify
 
         for subscriber in self.__subscribers:
-            subscriber.notify()
+            subscriber.notify(self.__info)
 
     def add_subscriber(self, subscriber):
         self.__subscribers.append(subscriber)
